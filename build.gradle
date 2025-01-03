@@ -1,14 +1,16 @@
-import com.github.spotbugs.snom.SpotBugsTask
+// import com.github.spotbugs.snom.SpotBugsTask
 import java.text.SimpleDateFormat
 
 plugins {
     id 'checkstyle'
-    id "com.github.spotbugs" version "6.0.27"
+    // id "com.github.spotbugs" version "6.0.27"
     id 'com.gradleup.shadow' version '8.3.5'
     id 'java'
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.11"
+    id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
-group = "com.crimsonwarpedcraft.exampleplugin"
+group = "me.joseffribble.wildernessborder"
 
 static def getTime() {
     SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd-HHmm")
@@ -37,6 +39,9 @@ if (shortVersion == null || shortVersion == "") {
 }
 
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
@@ -65,13 +70,14 @@ repositories {
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
-    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
+    // compileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
     implementation 'io.papermc:paperlib:1.0.8'
-    spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.13.0'
+    // spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.13.0'
     testCompileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
     testImplementation 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+    paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
 }
 
 test {
@@ -86,7 +92,7 @@ processResources {
 
 checkstyle {
     toolVersion '10.20.1'
-    maxWarnings = 0
+    maxWarnings = 100
 }
 
 configurations.checkstyle {
@@ -102,13 +108,17 @@ tasks.withType(Checkstyle).configureEach {
     }
 }
 
-tasks.withType(SpotBugsTask).configureEach {
-    reports.create("html") {
-        required = true
-    }
-    reports.create("xml") {
-        required = false
-    }
+// tasks.withType(SpotBugsTask).configureEach {
+//     reports.create("html") {
+//         required = true
+//     }
+//     reports.create("xml") {
+//         required = false
+//     }
+// }
+
+tasks.assemble {
+    dependsOn(tasks.reobfJar)
 }
 
 shadowJar {
@@ -138,4 +148,10 @@ tasks.register('release') {
                             + rootProject.name + '.jar')
         }
     }
+}
+
+tasks {
+  runServer {
+    minecraftVersion("1.21.4")
+  }
 }

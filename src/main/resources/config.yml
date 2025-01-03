@@ -1,1 +1,30 @@
-# A journey of 1,000 lines starts with a single char
+# WildernessBorder Configuration
+
+# Enable additional logging
+debug: false
+
+# Protected radius in blocks from 0,0
+# Due to minecraft's limitations (and perhaps my programing skills),
+# this radius will increase to align with a 32x32 region
+protected-radius: 5000
+
+# Interval (in hours) between wilderness checks
+regeneration-interval-hours: 168
+
+# Delay (in hours) before deleting inactive chunks
+deletion-delay-hours: 2
+
+# Radius (in blocks) to check for players before deleting chunks
+player-check-radius: 128
+
+# World specific settings
+worlds:
+  world:
+    enabled: true
+    scale: 1.0
+  world_nether:
+    enabled: true
+    scale: 0.125  # 1/8th of overworld size
+  world_the_end:
+    enabled: true
+    scale: 1.0

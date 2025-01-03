@@ -1,20 +1,17 @@
 main: ${PACKAGE}.${NAME}
 name: ${NAME}
 version: "${VERSION}"
-api-version: "1.21.1"
-author: AUTHOR
-description: DESCRIPTION
+api-version: '1.21.4'
+author: Joseff Ribble
+description: Automatically deletes chunks outside protected radius
 commands:
-  ex:
-    description: Base command for EXAMPLE
-    usage: "For a list of commands, type /ex help"
-    aliases: example
+  wildernessborder:
+    description: Main command for WildernessBorder plugin
+    usage: |
+      /wildernessborder reload - Reload configuration
+      /wildernessborder radius [blocks] - Get or set protected radius
+      /wildernessborder regen - Force deletion of regions outside protected radius
 permissions:
-  example.test:
-    description: DESCRIPTION
-    default: true
-  example.*:
-    description: Grants all other permissions
-    default: false
-    children:
-      example.test: true
+  wildernessborder.admin:
+    description: Allows use of all WildernessBorder commands
+    default: op
